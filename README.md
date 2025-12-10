@@ -384,36 +384,8 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 ```
 
-## 🤝 Contribuição
-
-### Como Contribuir
-
-1. Faça um fork do repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
-### Diretrizes
-
-- Mantenha o código bem documentado
-- Adicione testes para novas funcionalidades
-- Siga o padrão de código existente
-- Atualize a documentação quando necessário
 
 ## 📄 Licença
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-## 📞 Suporte
-
-Para suporte ou dúvidas:
-- Abra uma [issue](../../issues) no GitHub
-- Consulte a documentação técnica nos comentários do código
-- Verifique os testes para exemplos de uso
-
----
-
-**Desenvolvido com ❤️ para a comunidade científica**
-
-🔬 **Scientific Article Analysis System** - Automatizando a análise de conhecimento científico com inteligência artificial.
