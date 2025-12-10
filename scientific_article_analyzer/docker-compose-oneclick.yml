@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Sistema completo - One-click run
+  scientific-analyzer:
+    build: .
+    ports:
+      - "8888:8888"  # Jupyter Lab
+      - "8000:8000"  # Future API
+      - "3000:3000"  # MCP Server
+    volumes:
+      - ./:/app
+      - ./vector_store:/app/vector_store
+      - ./samples:/app/samples
+    environment:
+      - PYTHONPATH=/app
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=scientific2024
+    command: >
+      bash -c "
+      echo '🚀 Iniciando Sistema de Análise Científica...' &&
+      pip install -r requirements_minimal.txt &&
+      echo '📚 Configurando Vector Store (pode demorar)...' &&
+      jupyter nbconvert --execute --to notebook --ExecutePreprocessor.timeout=600 setup_vector_store.ipynb &&
+      echo '🧪 Executando Testes Automatizados...' &&
+      python test_system.py &&
+      echo '🎯 Demonstração do Sistema Multi-Agêntico...' &&
+      python agent_system.py &&
+      echo '✅ Sistema pronto!' &&
+      echo '📊 Jupyter Lab: http://localhost:8888 (token: scientific2024)' &&
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='scientific2024'
+      "
+    stdin_open: true
+    tty: true
+
+# Uso:
+# docker-compose up
+# Acesso: http://localhost:8888 (token: scientific2024)

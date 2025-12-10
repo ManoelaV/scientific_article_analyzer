@@ -1,0 +1,525 @@
+{
+  "name": "scientific-article-analyzer",
+  "version": "1.0.0",
+  "description": "Advanced MCP server for scientific article analysis with vector search and AI-powered classification",
+  "author": "Scientific Article Analyzer Team",
+  "license": "MIT",
+  "homepage": "https://github.com/your-org/scientific-article-analyzer",
+  "keywords": ["mcp", "scientific", "articles", "ai", "classification", "vector-search"],
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false,
+    "logging": true
+  },
+  "tools": [
+    {
+      "name": "search_articles",
+      "description": "Search for articles in the vector database using semantic similarity",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query for finding relevant articles",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "category": {
+            "type": "string",
+            "enum": ["machine_learning", "climate_science", "biotechnology"],
+            "description": "Optional: Filter results by scientific category"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of results to return",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 5
+          },
+          "similarity_threshold": {
+            "type": "number",
+            "description": "Minimum similarity score (0.0-1.0) for results",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "default": 0.7
+          }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier for the article chunk"
+            },
+            "title": {
+              "type": "string",
+              "description": "Title of the source article"
+            },
+            "category": {
+              "type": "string",
+              "description": "Scientific category of the article"
+            },
+            "score": {
+              "type": "number",
+              "description": "Similarity score (0.0-1.0)"
+            },
+            "content": {
+              "type": "string",
+              "description": "Relevant content excerpt"
+            },
+            "metadata": {
+              "type": "object",
+              "description": "Additional metadata about the article and chunk"
+            }
+          },
+          "required": ["id", "title", "category", "score", "content"],
+          "additionalProperties": true
+        }
+      },
+      "examples": [
+        {
+          "input": {
+            "query": "machine learning neural networks",
+            "category": "machine_learning",
+            "limit": 3
+          },
+          "output": [
+            {
+              "id": "ml_0_chunk_1",
+              "title": "Deep Neural Networks for Pattern Recognition",
+              "category": "machine_learning",
+              "score": 0.89,
+              "content": "Neural networks have revolutionized pattern recognition...",
+              "metadata": {
+                "authors": ["Dr. Jane Smith", "Prof. John Doe"],
+                "token_count": 250,
+                "chunk_strategy": "fixed_size"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get_article_content",
+      "description": "Retrieve complete content and metadata for a specific article",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the article (document ID, not chunk ID)",
+            "minLength": 1
+          },
+          "include_chunks": {
+            "type": "boolean",
+            "description": "Whether to include all chunks from the article",
+            "default": false
+          },
+          "include_embeddings": {
+            "type": "boolean",
+            "description": "Whether to include embedding vectors (for advanced use)",
+            "default": false
+          }
+        },
+        "required": ["id"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the article"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the article"
+          },
+          "category": {
+            "type": "string",
+            "description": "Scientific category"
+          },
+          "content": {
+            "type": "string",
+            "description": "Full text content of the article"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "authors": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "List of article authors"
+              },
+              "abstract": {
+                "type": "string",
+                "description": "Article abstract"
+              },
+              "keywords": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Article keywords"
+              },
+              "chunk_count": {
+                "type": "integer",
+                "description": "Number of chunks this article was split into"
+              },
+              "total_tokens": {
+                "type": "integer",
+                "description": "Total token count of the article"
+              }
+            },
+            "additionalProperties": true
+          },
+          "chunks": {
+            "type": "array",
+            "description": "Article chunks (only if include_chunks=true)",
+            "items": {
+              "type": "object",
+              "properties": {
+                "chunk_id": {"type": "string"},
+                "content": {"type": "string"},
+                "start_pos": {"type": "integer"},
+                "end_pos": {"type": "integer"},
+                "token_count": {"type": "integer"}
+              }
+            }
+          }
+        },
+        "required": ["id", "title", "category", "content", "metadata"],
+        "additionalProperties": false
+      },
+      "examples": [
+        {
+          "input": {
+            "id": "climate_science_1",
+            "include_chunks": true
+          },
+          "output": {
+            "id": "climate_science_1",
+            "title": "Climate Change Impact on Arctic Ice",
+            "category": "climate_science",
+            "content": "Global warming has significantly affected Arctic ice coverage...",
+            "metadata": {
+              "authors": ["Dr. Alice Johnson", "Prof. Bob Wilson"],
+              "abstract": "This study examines the rapid decline of Arctic ice...",
+              "keywords": ["climate change", "arctic", "ice coverage"],
+              "chunk_count": 8,
+              "total_tokens": 2400
+            },
+            "chunks": [
+              {
+                "chunk_id": "climate_science_1_chunk_0",
+                "content": "Global warming has significantly affected...",
+                "start_pos": 0,
+                "end_pos": 1000,
+                "token_count": 250
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "classify_article",
+      "description": "Classify an article into one of the three scientific categories using AI analysis",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Full text content of the article to classify",
+            "minLength": 100,
+            "maxLength": 50000
+          },
+          "title": {
+            "type": "string",
+            "description": "Optional: Title of the article for better classification",
+            "maxLength": 500
+          },
+          "abstract": {
+            "type": "string",
+            "description": "Optional: Abstract of the article for enhanced accuracy",
+            "maxLength": 2000
+          },
+          "method": {
+            "type": "string",
+            "enum": ["centroid", "retrieval", "combined"],
+            "description": "Classification method to use",
+            "default": "combined"
+          }
+        },
+        "required": ["content"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["machine_learning", "climate_science", "biotechnology"],
+            "description": "Predicted scientific category"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Confidence score for the classification"
+          },
+          "method": {
+            "type": "string",
+            "description": "Classification method used"
+          },
+          "detailed_scores": {
+            "type": "object",
+            "properties": {
+              "machine_learning": {"type": "number"},
+              "climate_science": {"type": "number"},
+              "biotechnology": {"type": "number"}
+            },
+            "description": "Detailed scores for each category"
+          },
+          "similar_articles": {
+            "type": "array",
+            "description": "Similar articles found during classification",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "string"},
+                "title": {"type": "string"},
+                "similarity": {"type": "number"}
+              }
+            }
+          }
+        },
+        "required": ["category", "confidence", "method"],
+        "additionalProperties": true
+      },
+      "examples": [
+        {
+          "input": {
+            "content": "This paper presents a novel neural network architecture for image recognition...",
+            "title": "Advanced CNN for Image Classification",
+            "method": "combined"
+          },
+          "output": {
+            "category": "machine_learning",
+            "confidence": 0.92,
+            "method": "centroid_plus_retrieval",
+            "detailed_scores": {
+              "machine_learning": 0.92,
+              "climate_science": 0.15,
+              "biotechnology": 0.08
+            },
+            "similar_articles": [
+              {
+                "id": "ml_0_chunk_1",
+                "title": "Deep Neural Networks for Pattern Recognition",
+                "similarity": 0.89
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "extract_article_info",
+      "description": "Extract structured information from an article in JSON format with strict schema compliance",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Full text content of the article",
+            "minLength": 100
+          },
+          "title": {
+            "type": "string",
+            "description": "Optional: Article title for enhanced extraction"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["machine_learning", "climate_science", "biotechnology"],
+            "description": "Optional: Known category for specialized extraction"
+          },
+          "strict_mode": {
+            "type": "boolean",
+            "description": "Enable strict JSON schema validation",
+            "default": true
+          }
+        },
+        "required": ["content"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "titulo": {"type": "string"},
+          "autores": {"type": "array", "items": {"type": "string"}},
+          "resumo": {"type": "string"},
+          "palavras_chave": {"type": "array", "items": {"type": "string"}},
+          "metodologia": {"type": "string"},
+          "resultados_principais": {"type": "string"},
+          "conclusoes": {"type": "string"},
+          "limitacoes": {"type": "string"},
+          "trabalhos_futuros": {"type": "string"}
+        },
+        "required": ["titulo", "autores", "resumo", "palavras_chave", "metodologia", "resultados_principais", "conclusoes"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "generate_review",
+      "description": "Generate a critical academic review of an article in Portuguese with structured rubric evaluation",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Full text content of the article to review",
+            "minLength": 100
+          },
+          "article_info": {
+            "type": "object",
+            "description": "Optional: Extracted article information for enhanced review"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["machine_learning", "climate_science", "biotechnology"],
+            "description": "Scientific category for specialized review criteria"
+          },
+          "review_type": {
+            "type": "string",
+            "enum": ["comprehensive", "focused", "summary"],
+            "description": "Type of review to generate",
+            "default": "comprehensive"
+          }
+        },
+        "required": ["content"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "review_text": {
+            "type": "string",
+            "description": "Complete critical review in Portuguese"
+          },
+          "rubric_scores": {
+            "type": "object",
+            "properties": {
+              "novelty": {"type": "number", "minimum": 1, "maximum": 5},
+              "methodology": {"type": "number", "minimum": 1, "maximum": 5},
+              "validity": {"type": "number", "minimum": 1, "maximum": 5},
+              "threats": {"type": "number", "minimum": 1, "maximum": 5},
+              "replicability": {"type": "number", "minimum": 1, "maximum": 5}
+            },
+            "required": ["novelty", "methodology", "validity", "threats", "replicability"]
+          },
+          "overall_score": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Overall quality score"
+          },
+          "strengths": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Key strengths identified"
+          },
+          "weaknesses": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Key weaknesses identified"
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Recommendations for improvement"
+          }
+        },
+        "required": ["review_text", "rubric_scores", "overall_score"],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "configuration": {
+    "environment_variables": [
+      {
+        "name": "OPENAI_API_KEY",
+        "description": "OpenAI API key for enhanced AI features (optional)",
+        "required": false
+      },
+      {
+        "name": "VECTOR_STORE_PATH",
+        "description": "Path to vector store data directory",
+        "required": false,
+        "default": "./data/advanced_vector_store"
+      },
+      {
+        "name": "EMBEDDING_PROVIDER",
+        "description": "Embedding provider to use",
+        "required": false,
+        "default": "sentence_transformers",
+        "enum": ["sentence_transformers", "openai", "huggingface"]
+      },
+      {
+        "name": "LOG_LEVEL",
+        "description": "Logging level",
+        "required": false,
+        "default": "INFO",
+        "enum": ["DEBUG", "INFO", "WARNING", "ERROR"]
+      }
+    ],
+    "requirements": {
+      "python": ">=3.8",
+      "packages": [
+        "fastmcp>=0.2.0",
+        "numpy>=1.21.0",
+        "scikit-learn>=1.0.0",
+        "sentence-transformers>=2.0.0",
+        "faiss-cpu>=1.7.0",
+        "tiktoken>=0.4.0"
+      ]
+    }
+  },
+  "installation": {
+    "instructions": [
+      "Install Python 3.8 or higher",
+      "Install required packages: pip install -r requirements.txt",
+      "Set environment variables as needed",
+      "Initialize vector store: python setup_vector_store.py",
+      "Start MCP server: python -m mcp_server.server"
+    ],
+    "docker": {
+      "available": true,
+      "command": "docker-compose up mcp-server"
+    }
+  },
+  "usage": {
+    "client_examples": [
+      {
+        "language": "javascript",
+        "description": "Basic search using MCP client",
+        "code": "const result = await mcpClient.callTool('search_articles', {\n  query: 'neural networks deep learning',\n  category: 'machine_learning',\n  limit: 5\n});"
+      },
+      {
+        "language": "python",
+        "description": "Article classification",
+        "code": "result = await mcp_client.call_tool('classify_article', {\n    'content': article_text,\n    'title': 'My Research Paper',\n    'method': 'combined'\n})"
+      }
+    ]
+  },
+  "support": {
+    "documentation": "https://github.com/your-org/scientific-article-analyzer/wiki",
+    "issues": "https://github.com/your-org/scientific-article-analyzer/issues",
+    "contact": "support@your-org.com"
+  }
+}

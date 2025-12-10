@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scientific-article-analyzer"
+version = "0.1.0"
+description = "Sistema agêntico para análise de artigos científicos com classificação, extração de informações e geração de resenhas críticas via MCP."
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "mcp>=1.0.0",
+    "uvicorn",
+    "fastapi",
+    "pydantic",
+    "httpx",
+    "openai",
+    "anthropic",
+    "PyPDF2",
+    "python-multipart",
+    "beautifulsoup4",
+    "requests",
+    "chromadb",
+    "sentence-transformers",
+    "tiktoken",
+    "python-dotenv",
+    "numpy",
+    "scikit-learn",
+    "langchain",
+    "langchain-text-splitters",
+    "arxiv",
+    "aiofiles"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "black",
+    "flake8",
+    "mypy"
+]
+
+[project.scripts]
+scientific-analyzer = "scientific_article_analyzer.main:main"
+mcp-server = "scientific_article_analyzer.mcp_server.server:main"
