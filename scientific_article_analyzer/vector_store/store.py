@@ -116,16 +116,16 @@ class VectorStore:
         """
         try:
             # Generate embedding
-            embedding = self.embedding_manager.create_embedding(article.full_text)
+            embedding = self.embedding_manager.create_embedding(article.text)
             
             # Create article entry
             article_id = f"{category.value}_{len(self.articles[category])}"
             article_data = {
                 "id": article_id,
                 "title": article.title,
-                "abstract": article.abstract or article.full_text[:500],
-                "content": article.full_text,
-                "url": article.url or "",
+                "abstract": article.abstract or article.text[:500],
+                "content": article.text,
+                "url": article.source_url or "",
                 "category": category.value,
                 "added_at": datetime.now().isoformat()
             }
@@ -258,7 +258,7 @@ class VectorStore:
                 ArticleContent(
                     title="Deep Learning for Computer Vision: A Comprehensive Survey",
                     abstract="This paper provides a comprehensive survey of deep learning techniques for computer vision applications.",
-                    full_text="""
+                    text="""
                     Deep learning has revolutionized computer vision in recent years. This comprehensive survey
                     examines the major deep learning architectures used in computer vision, including convolutional
                     neural networks (CNNs), recurrent neural networks (RNNs), and transformer-based models.
@@ -276,12 +276,12 @@ class VectorStore:
                     on many computer vision benchmarks, while CNN architectures remain competitive for
                     real-time applications due to their computational efficiency.
                     """,
-                    url="https://example.com/dl-cv-survey"
+                    source_url="https://example.com/dl-cv-survey"
                 ),
                 ArticleContent(
                     title="Attention Mechanisms in Neural Networks: A Survey",
                     abstract="A comprehensive review of attention mechanisms and their applications in various neural network architectures.",
-                    full_text="""
+                    text="""
                     Attention mechanisms have become a fundamental component of modern neural networks,
                     enabling models to focus on relevant parts of input data. This survey provides
                     a comprehensive overview of attention mechanisms across different domains.
@@ -299,12 +299,12 @@ class VectorStore:
                     attention visualization techniques, and the integration of attention with other
                     architectural components for improved performance and interpretability.
                     """,
-                    url="https://example.com/attention-survey"
+                    source_url="https://example.com/attention-survey"
                 ),
                 ArticleContent(
                     title="Reinforcement Learning in Robotics: Recent Advances and Applications",
                     abstract="This paper reviews recent advances in applying reinforcement learning to robotics applications.",
-                    full_text="""
+                    text="""
                     Reinforcement learning (RL) has shown remarkable success in robotics applications,
                     enabling robots to learn complex behaviors through interaction with their environment.
                     This paper reviews recent advances in RL for robotics.
@@ -322,7 +322,7 @@ class VectorStore:
                     multi-agent robotic systems, and the integration of RL with other AI techniques
                     such as computer vision and natural language processing.
                     """,
-                    url="https://example.com/rl-robotics"
+                    source_url="https://example.com/rl-robotics"
                 )
             ],
             
@@ -330,7 +330,7 @@ class VectorStore:
                 ArticleContent(
                     title="Quantum Entanglement in Many-Body Systems: Theory and Applications",
                     abstract="A comprehensive study of quantum entanglement phenomena in many-body quantum systems.",
-                    full_text="""
+                    text="""
                     Quantum entanglement is a fundamental phenomenon in quantum mechanics that plays
                     a crucial role in many-body quantum systems. This paper provides a comprehensive
                     theoretical framework for understanding entanglement in complex quantum systems.
@@ -348,12 +348,12 @@ class VectorStore:
                     metrology are discussed. The paper concludes with open problems and future
                     research directions in many-body entanglement theory.
                     """,
-                    url="https://example.com/quantum-entanglement"
+                    source_url="https://example.com/quantum-entanglement"
                 ),
                 ArticleContent(
                     title="Superconductivity in Two-Dimensional Materials: Electronic Properties and Applications",
                     abstract="Investigation of superconducting properties in two-dimensional materials and their potential applications.",
-                    full_text="""
+                    text="""
                     Two-dimensional materials have emerged as a new platform for studying unconventional
                     superconductivity. This paper investigates the electronic properties of 2D
                     superconductors and their potential technological applications.
@@ -372,12 +372,12 @@ class VectorStore:
                     storage are explored. The paper concludes with challenges and opportunities
                     for engineering superconducting devices based on 2D materials.
                     """,
-                    url="https://example.com/2d-superconductors"
+                    source_url="https://example.com/2d-superconductors"
                 ),
                 ArticleContent(
                     title="Dark Matter Detection: Current Status and Future Prospects",
                     abstract="Review of current dark matter detection methods and analysis of future experimental prospects.",
-                    full_text="""
+                    text="""
                     Dark matter constitutes approximately 27% of the universe's mass-energy content,
                     yet its nature remains one of the greatest mysteries in physics. This paper
                     reviews current detection methods and analyzes future experimental prospects.
@@ -398,7 +398,7 @@ class VectorStore:
                     colliders are discussed. The paper concludes with theoretical developments
                     that may guide future search strategies.
                     """,
-                    url="https://example.com/dark-matter"
+                    source_url="https://example.com/dark-matter"
                 )
             ],
             
@@ -406,7 +406,7 @@ class VectorStore:
                 ArticleContent(
                     title="CRISPR-Cas9 Gene Editing: Mechanisms, Applications, and Therapeutic Potential",
                     abstract="Comprehensive review of CRISPR-Cas9 gene editing technology and its applications in medicine and research.",
-                    full_text="""
+                    text="""
                     CRISPR-Cas9 has revolutionized gene editing by providing a precise, efficient,
                     and programmable system for genome modification. This comprehensive review
                     examines the molecular mechanisms, current applications, and therapeutic
@@ -425,12 +425,12 @@ class VectorStore:
                     prime editing, and CRISPR 2.0 systems. Ethical considerations and regulatory
                     frameworks for clinical applications are also addressed.
                     """,
-                    url="https://example.com/crispr-review"
+                    source_url="https://example.com/crispr-review"
                 ),
                 ArticleContent(
                     title="Single-Cell RNA Sequencing: Technologies, Analysis Methods, and Biological Insights",
                     abstract="Overview of single-cell RNA sequencing technologies and their applications in understanding cellular heterogeneity.",
-                    full_text="""
+                    text="""
                     Single-cell RNA sequencing (scRNA-seq) has transformed our understanding of
                     cellular heterogeneity and gene expression dynamics. This paper provides an
                     overview of scRNA-seq technologies, analysis methods, and biological insights.
@@ -449,12 +449,12 @@ class VectorStore:
                     cell types, characterized differentiation processes, and identified
                     disease mechanisms at single-cell resolution.
                     """,
-                    url="https://example.com/scrna-seq"
+                    source_url="https://example.com/scrna-seq"
                 ),
                 ArticleContent(
                     title="Microbiome-Host Interactions: Mechanisms and Implications for Human Health",
                     abstract="Investigation of molecular mechanisms underlying microbiome-host interactions and their impact on health and disease.",
-                    full_text="""
+                    text="""
                     The human microbiome plays a crucial role in health and disease through
                     complex interactions with host physiology. This paper investigates the
                     molecular mechanisms underlying microbiome-host interactions and their
@@ -475,7 +475,7 @@ class VectorStore:
                     therapeutic approaches targeting the microbiome, including probiotics,
                     fecal microbiota transplantation, and precision microbiome interventions.
                     """,
-                    url="https://example.com/microbiome"
+                    source_url="https://example.com/microbiome"
                 )
             ]
         }

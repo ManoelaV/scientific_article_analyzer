@@ -11,10 +11,14 @@ Sistema completo para análise automatizada de artigos científicos usando MCP (
 # 1. Configurar ambiente
 .\run.ps1 setup
 
-# 2. Indexar vector store 
+# 2. (Opcional) Usar Ollama local
+# Instale: https://ollama.com/download
+ollama pull llama3.2
+
+# 3. Indexar vector store 
 .\run.ps1 index
 
-# 3. Executar testes
+# 4. Executar testes
 .\run.ps1 test1    # Teste com arquivo local
 .\run.ps1 test2    # Teste com URL simulada  
 .\run.ps1 test3    # Edge case (artigo fora das 3 áreas)
@@ -25,10 +29,14 @@ Sistema completo para análise automatizada de artigos científicos usando MCP (
 # 1. Configurar ambiente
 make setup
 
-# 2. Indexar vector store
+# 2. (Opcional) Usar Ollama local
+# Instale: https://ollama.com/download
+ollama pull llama3.2
+
+# 3. Indexar vector store
 make index
 
-# 3. Executar testes
+# 4. Executar testes
 make test1    # Teste com arquivo local
 make test2    # Teste com URL simulada
 make test3    # Edge case (artigo fora das 3 áreas)
@@ -170,18 +178,40 @@ Copie o arquivo de exemplo:
 copy .env.example .env
 ```
 
-Edite o arquivo `.env` com suas chaves de API:
+Edite o arquivo `.env` com suas chaves de API.
+
+**Opção A — Ollama (local e gratuito)**
+```env
+OPENAI_API_KEY=ollama
+OPENAI_API_BASE=http://localhost:11434/v1
+OPENAI_MODEL=llama3.2
+```
+
+**Opção B — OpenAI (pago)**
 ```env
 OPENAI_API_KEY=sua_chave_openai_aqui
-ANTHROPIC_API_KEY=sua_chave_anthropic_aqui  # Opcional
+OPENAI_MODEL=gpt-4o-mini
+```
+
+**Opção C — Groq (gratuito)**
+```env
+OPENAI_API_KEY=sua_chave_groq_aqui
+OPENAI_API_BASE=https://api.groq.com/openai/v1
+OPENAI_MODEL=llama-3.1-70b-versatile
+```
+
+Opcional:
+```env
+ANTHROPIC_API_KEY=sua_chave_anthropic_aqui
 ```
 
 ### 2. Verificar Instalação
 
-Execute o teste do sistema:
+Execute o teste simples do sistema:
 ```bash
-python test_system.py
+python simple_test.py
 ```
+
 
 ## 📖 Uso
 
@@ -210,7 +240,7 @@ print(f"Score da Resenha: {result.review.overall_score}")
 
 Inicie o servidor MCP para integração externa:
 ```bash
-python -m mcp_server.server
+python mcp_server\server.py
 ```
 
 ### Aplicação Standalone
@@ -322,11 +352,27 @@ if result["success"]:
 
 ## 🧪 Testes
 
-### Executar Todos os Testes
+### Executar Teste Básico
+
+Para verificar que todos os componentes estão funcionando:
+```bash
+python simple_test.py
+```
+
+Este teste verifica:
+- ✅ Importação de todos os módulos
+- ✅ Geração de embeddings (384 dimensões)
+- ✅ Inicialização do vector store
+- ✅ Carregamento do classificador
+- ✅ Modelos de dados
+
+### Executar Testes Completos (Em desenvolvimento)
 
 ```bash
 python test_system.py
 ```
+
+**Nota:** `test_system.py` foi escrito para uma versão anterior da API. Atualmente, 6 de 16 testes passam (testes do sistema de agentes). Os testes restantes precisam ser atualizados para a API atual.
 
 ### Testes Específicos
 

@@ -1,7 +1,7 @@
 """
 MCP Tools for Scientific Article Analysis System
 Implements the two required tools: search_articles and get_article_content
-Uses the multi-agent system as backend for enhanced functionality
+Uses the main analyzer system as backend for enhanced functionality
 """
 
 from typing import Any, Dict, List, Optional, TYPE_CHECKING
@@ -12,27 +12,27 @@ import logging
 from src.models import ScientificCategory
 
 if TYPE_CHECKING:
-    from multi_agent_system import CoordinatorAgent
+    from main import ScientificArticleAnalyzer
 
 logger = logging.getLogger(__name__)
 
 class MCPTools:
-    """MCP tools implementing search_articles and get_article_content with multi-agent backend."""
+    """MCP tools implementing search_articles and get_article_content with analyzer backend."""
     
-    def __init__(self, multi_agent_system: 'CoordinatorAgent'):
-        """Initialize MCP tools with multi-agent system backend."""
-        self.multi_agent_system = multi_agent_system
+    def __init__(self, analyzer: 'ScientificArticleAnalyzer'):
+        """Initialize MCP tools with analyzer system backend."""
+        self.analyzer = analyzer
         
         # Article cache for get_article_content
         self.article_cache = {}
         self._initialized = False
     
     async def initialize(self):
-        """Initialize the multi-agent system and vector store."""
+        """Initialize the analyzer system and vector store."""
         if not self._initialized:
-            await self.multi_agent_system.initialize()
+            await self.analyzer.initialize()
             self._initialized = True
-            logger.info("Multi-agent system and vector store initialized")
+            logger.info("Analyzer system and vector store initialized")
     
     async def search_articles(self, query: str) -> List[Dict[str, Any]]:
         """Search for articles in the vector store.
@@ -44,11 +44,11 @@ class MCPTools:
             List of articles with id, title, area, and score
         """
         try:
-            # Ensure multi-agent system is initialized
+            # Ensure analyzer system is initialized
             await self.initialize()
             
-            # Use multi-agent system to search for similar articles
-            results = await self.multi_agent_system.vector_store.search_similar(
+            # Use analyzer system to search for similar articles
+            results = await self.analyzer.vector_store.search_similar(
                 query=query,
                 category=None,  # Search all categories
                 limit=10,
@@ -58,14 +58,17 @@ class MCPTools:
             # Format results as specified: [{id, title, area, score}]
             formatted_results = []
             for i, result in enumerate(results):
-                article_id = result.entry.id
-                title = result.entry.metadata.get("title", "Unknown Title")
+                article_id = result.get("id", f"article_{i}")
+                title = result.get("title", result.get("metadata", {}).get("title", "Unknown Title"))
+                category = result.get("category", result.get("metadata", {}).get("category", "unknown"))
+                score = result.get("similarity", result.get("score", 0.0))
+                content = result.get("content", result.get("text", ""))
                 
                 formatted_result = {
                     "id": article_id,
                     "title": title,
-                    "area": result.entry.category.value,
-                    "score": round(result.similarity_score, 3)
+                    "area": category if isinstance(category, str) else category.value,
+                    "score": round(float(score), 3)
                 }
                 formatted_results.append(formatted_result)
                 
@@ -73,8 +76,8 @@ class MCPTools:
                 self.article_cache[article_id] = {
                     "id": article_id,
                     "title": title,
-                    "area": result.entry.category.value,
-                    "content": result.entry.content
+                    "area": category if isinstance(category, str) else category.value,
+                    "content": content
                 }
             
             logger.info(f"Search for '{query}' returned {len(formatted_results)} results")

@@ -48,7 +48,18 @@ function Invoke-Setup {
     
     # Instalar dependencias
     Write-Host "Instalando dependencias Python..." -ForegroundColor Yellow
-    pip install -r requirements_minimal.txt
+    $requirementsFile = "requirements_minimal.txt"
+    if (!(Test-Path $requirementsFile)) {
+        if (Test-Path "requirements_simple.txt") {
+            $requirementsFile = "requirements_simple.txt"
+        } elseif (Test-Path "requirements.txt") {
+            $requirementsFile = "requirements.txt"
+        } else {
+            throw "Nenhum arquivo de requirements encontrado"
+        }
+    }
+    Write-Host "Usando: $requirementsFile" -ForegroundColor Gray
+    pip install -r $requirementsFile
     if ($LASTEXITCODE -ne 0) { throw "Erro ao instalar dependencias" }
     
     # Criar diretorios

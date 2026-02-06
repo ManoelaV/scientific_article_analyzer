@@ -32,13 +32,15 @@ class ScientificArticleAnalyzer:
     Main system class that orchestrates the complete article analysis workflow.
     """
     
-    def __init__(self, openai_api_key: Optional[str] = None, anthropic_api_key: Optional[str] = None):
+    def __init__(self, openai_api_key: Optional[str] = None, anthropic_api_key: Optional[str] = None, api_base: Optional[str] = None, model: str = "gpt-4o-mini"):
         """
         Initialize the complete analysis system.
         
         Args:
             openai_api_key: OpenAI API key for LLM operations
             anthropic_api_key: Anthropic API key (alternative to OpenAI)
+            api_base: Base URL for custom API endpoints (e.g., Ollama, LM Studio)
+            model: Model name to use (default: gpt-4o-mini)
         """
         self.processor = ArticleProcessor()
         self.embedding_manager = EmbeddingManager()
@@ -47,6 +49,8 @@ class ScientificArticleAnalyzer:
         # Initialize classification and analysis components (with API keys)
         self.openai_api_key = openai_api_key
         self.anthropic_api_key = anthropic_api_key
+        self.api_base = api_base
+        self.model = model
         
         # Components will be initialized when API keys are available
         self.classifier = None
@@ -74,10 +78,12 @@ class ScientificArticleAnalyzer:
                 from src.extractor import InformationExtractor
                 from src.reviewer import CriticalReviewer
                 
-                self.classifier = ArticleClassifier(openai_api_key=self.openai_api_key)
-                self.extractor = InformationExtractor(openai_api_key=self.openai_api_key)
-                self.reviewer = CriticalReviewer(openai_api_key=self.openai_api_key)
-                logger.info("AI components initialized with OpenAI API")
+                self.classifier = ArticleClassifier(openai_api_key=self.openai_api_key, api_base=self.api_base, model=self.model)
+                self.extractor = InformationExtractor(openai_api_key=self.openai_api_key, api_base=self.api_base, model=self.model)
+                self.reviewer = CriticalReviewer(openai_api_key=self.openai_api_key, api_base=self.api_base, model=self.model)
+                logger.info(f"AI components initialized with model: {self.model}")
+                if self.api_base:
+                    logger.info(f"Using custom API endpoint: {self.api_base}")
             else:
                 logger.warning("No API keys provided - analysis features will be limited")
             
@@ -254,11 +260,38 @@ async def main():
     """
     Main function demonstrating the system usage.
     """
+    import os
+    from dotenv import load_dotenv
+    
+    # Load environment variables
+    load_dotenv(dotenv_path=project_root / ".env", override=True)
+    
+    # Get configuration from environment
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+    api_base = os.getenv("OPENAI_API_BASE")  # Para Ollama: http://localhost:11434/v1
+    model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")  # Default: gpt-4o-mini
+    
+    # Normalizar valores
+    openai_api_key = openai_api_key.strip() if openai_api_key else None
+    api_base = api_base.strip() if api_base else None
+    
+    # Fallback para Ollama: exige alguma chave, mesmo local
+    if api_base and not openai_api_key:
+        openai_api_key = "ollama"
+    if openai_api_key == "ollama":
+        api_base = api_base or "http://localhost:11434/v1"
+        if model == "gpt-4o-mini":
+            model = "llama3.2"
+    
     print("🔬 Scientific Article Analysis System")
     print("=" * 50)
     
-    # Initialize the analyzer
-    analyzer = ScientificArticleAnalyzer()
+    # Initialize the analyzer with configuration
+    analyzer = ScientificArticleAnalyzer(
+        openai_api_key=openai_api_key,
+        api_base=api_base,
+        model=model
+    )
     
     # Example usage
     print("\n📊 System Statistics:")
@@ -268,6 +301,19 @@ async def main():
     # Initialize the system
     print("\n🚀 Initializing system...")
     await analyzer.initialize()
+    
+    # Show configuration
+    if api_base:
+        if "localhost:11434" in api_base:
+            print(f"\n✅ Usando Ollama: {api_base}")
+        else:
+            print(f"\n✅ Usando API customizada: {api_base}")
+        print(f"📦 Modelo: {model}")
+    elif openai_api_key:
+        print(f"\n✅ Usando OpenAI API")
+        print(f"📦 Modelo: {model}")
+    else:
+        print("\n⚠️  Nenhuma chave API configurada - funcionalidades limitadas")
     
     print("\n✅ System ready! You can now:")
     print("1. Analyze articles using analyzer.analyze_article()")

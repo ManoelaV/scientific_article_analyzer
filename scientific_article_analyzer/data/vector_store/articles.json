@@ -1,89 +1,90 @@
 {
-  "Computer Science": [
+  "computer_science": [
     {
-      "id": "Computer Science_0",
+      "id": "computer_science_0",
       "title": "Deep Learning for Computer Vision: A Comprehensive Survey",
       "abstract": "This paper provides a comprehensive survey of deep learning techniques for computer vision applications.",
       "content": "\n                    Deep learning has revolutionized computer vision in recent years. This comprehensive survey\n                    examines the major deep learning architectures used in computer vision, including convolutional\n                    neural networks (CNNs), recurrent neural networks (RNNs), and transformer-based models.\n                    \n                    The paper covers key applications such as image classification, object detection, semantic\n                    segmentation, and image generation. We discuss the evolution from early CNN architectures\n                    like LeNet and AlexNet to more recent developments such as ResNet, DenseNet, and Vision\n                    Transformers.\n                    \n                    Key contributions include: 1) A systematic categorization of deep learning approaches,\n                    2) Performance comparisons across different architectures, 3) Analysis of computational\n                    requirements and efficiency considerations.\n                    \n                    Our experiments show that transformer-based models achieve state-of-the-art performance\n                    on many computer vision benchmarks, while CNN architectures remain competitive for\n                    real-time applications due to their computational efficiency.\n                    ",
       "url": "https://example.com/dl-cv-survey",
-      "category": "Computer Science",
-      "added_at": "2025-12-10T14:22:00.245351"
+      "category": "computer_science",
+      "added_at": "2026-02-06T14:47:06.502435"
     },
     {
-      "id": "Computer Science_1",
+      "id": "computer_science_1",
       "title": "Attention Mechanisms in Neural Networks: A Survey",
       "abstract": "A comprehensive review of attention mechanisms and their applications in various neural network architectures.",
       "content": "\n                    Attention mechanisms have become a fundamental component of modern neural networks,\n                    enabling models to focus on relevant parts of input data. This survey provides\n                    a comprehensive overview of attention mechanisms across different domains.\n                    \n                    We categorize attention mechanisms into several types: self-attention, cross-attention,\n                    multi-head attention, and sparse attention. The paper traces the evolution from\n                    early attention models in machine translation to the transformer architecture\n                    that relies entirely on attention mechanisms.\n                    \n                    Key applications covered include natural language processing, computer vision,\n                    speech recognition, and multimodal learning. We analyze the computational\n                    complexity and memory requirements of different attention variants.\n                    \n                    The survey concludes with emerging trends such as efficient attention mechanisms,\n                    attention visualization techniques, and the integration of attention with other\n                    architectural components for improved performance and interpretability.\n                    ",
       "url": "https://example.com/attention-survey",
-      "category": "Computer Science",
-      "added_at": "2025-12-10T14:22:00.268988"
+      "category": "computer_science",
+      "added_at": "2026-02-06T14:47:06.532890"
     },
     {
-      "id": "Computer Science_2",
+      "id": "computer_science_2",
       "title": "Reinforcement Learning in Robotics: Recent Advances and Applications",
       "abstract": "This paper reviews recent advances in applying reinforcement learning to robotics applications.",
       "content": "\n                    Reinforcement learning (RL) has shown remarkable success in robotics applications,\n                    enabling robots to learn complex behaviors through interaction with their environment.\n                    This paper reviews recent advances in RL for robotics.\n                    \n                    We cover key RL algorithms adapted for robotics, including policy gradient methods,\n                    actor-critic algorithms, and model-based approaches. The paper discusses the\n                    challenges of applying RL to real-world robotic systems, including sample\n                    efficiency, safety constraints, and sim-to-real transfer.\n                    \n                    Major applications reviewed include robotic manipulation, locomotion, navigation,\n                    and human-robot interaction. We analyze successful case studies such as robotic\n                    grasping, bipedal walking, and autonomous drone control.\n                    \n                    The paper concludes with future directions including meta-learning for robotics,\n                    multi-agent robotic systems, and the integration of RL with other AI techniques\n                    such as computer vision and natural language processing.\n                    ",
       "url": "https://example.com/rl-robotics",
-      "category": "Computer Science",
-      "added_at": "2025-12-10T14:22:00.293605"
+      "category": "computer_science",
+      "added_at": "2026-02-06T14:47:06.564413"
     }
   ],
-  "Physics": [
+  "physics": [
     {
-      "id": "Physics_0",
+      "id": "physics_0",
       "title": "Quantum Entanglement in Many-Body Systems: Theory and Applications",
       "abstract": "A comprehensive study of quantum entanglement phenomena in many-body quantum systems.",
       "content": "\n                    Quantum entanglement is a fundamental phenomenon in quantum mechanics that plays\n                    a crucial role in many-body quantum systems. This paper provides a comprehensive\n                    theoretical framework for understanding entanglement in complex quantum systems.\n                    \n                    We develop mathematical tools for characterizing entanglement using entropy measures,\n                    entanglement spectrum analysis, and topological indicators. The paper covers both\n                    equilibrium and non-equilibrium many-body systems, including quantum spin chains,\n                    ultracold atomic gases, and condensed matter systems.\n                    \n                    Key results include: 1) Universal scaling laws for entanglement entropy,\n                    2) Classification of quantum phase transitions based on entanglement properties,\n                    3) Novel protocols for entanglement detection in experimental systems.\n                    \n                    Applications to quantum information processing, quantum simulation, and quantum\n                    metrology are discussed. The paper concludes with open problems and future\n                    research directions in many-body entanglement theory.\n                    ",
       "url": "https://example.com/quantum-entanglement",
-      "category": "Physics",
-      "added_at": "2025-12-10T14:22:00.318638"
+      "category": "physics",
+      "added_at": "2026-02-06T14:47:06.595598"
     },
     {
-      "id": "Physics_1",
+      "id": "physics_1",
       "title": "Superconductivity in Two-Dimensional Materials: Electronic Properties and Applications",
       "abstract": "Investigation of superconducting properties in two-dimensional materials and their potential applications.",
       "content": "\n                    Two-dimensional materials have emerged as a new platform for studying unconventional\n                    superconductivity. This paper investigates the electronic properties of 2D\n                    superconductors and their potential technological applications.\n                    \n                    We examine various 2D superconducting materials including transition metal\n                    dichalcogenides, graphene-based systems, and van der Waals heterostructures.\n                    The paper discusses the role of reduced dimensionality on superconducting\n                    properties and the emergence of novel pairing mechanisms.\n                    \n                    Experimental techniques for probing 2D superconductivity are reviewed,\n                    including transport measurements, scanning tunneling spectroscopy, and\n                    angle-resolved photoemission spectroscopy. We present results on critical\n                    temperatures, coherence lengths, and gap symmetries.\n                    \n                    Applications in quantum electronics, superconducting qubits, and energy\n                    storage are explored. The paper concludes with challenges and opportunities\n                    for engineering superconducting devices based on 2D materials.\n                    ",
       "url": "https://example.com/2d-superconductors",
-      "category": "Physics",
-      "added_at": "2025-12-10T14:22:00.344200"
+      "category": "physics",
+      "added_at": "2026-02-06T14:47:06.627844"
     },
     {
-      "id": "Physics_2",
+      "id": "physics_2",
       "title": "Dark Matter Detection: Current Status and Future Prospects",
       "abstract": "Review of current dark matter detection methods and analysis of future experimental prospects.",
       "content": "\n                    Dark matter constitutes approximately 27% of the universe's mass-energy content,\n                    yet its nature remains one of the greatest mysteries in physics. This paper\n                    reviews current detection methods and analyzes future experimental prospects.\n                    \n                    We categorize detection approaches into three main types: direct detection\n                    through nuclear recoils, indirect detection via cosmic rays, and collider\n                    searches for dark matter candidates. The paper discusses the theoretical\n                    motivations for various dark matter models including WIMPs, axions, and\n                    sterile neutrinos.\n                    \n                    Current experimental results from underground laboratories, space-based\n                    telescopes, and particle accelerators are analyzed. We examine the\n                    complementarity of different detection strategies and their sensitivity\n                    to various dark matter models.\n                    \n                    Future experimental programs including next-generation direct detection\n                    experiments, improved cosmic ray observatories, and high-luminosity\n                    colliders are discussed. The paper concludes with theoretical developments\n                    that may guide future search strategies.\n                    ",
       "url": "https://example.com/dark-matter",
-      "category": "Physics",
-      "added_at": "2025-12-10T14:22:00.368098"
+      "category": "physics",
+      "added_at": "2026-02-06T14:47:06.660080"
     }
   ],
-  "Biology": [
+  "biology": [
     {
-      "id": "Biology_0",
+      "id": "biology_0",
       "title": "CRISPR-Cas9 Gene Editing: Mechanisms, Applications, and Therapeutic Potential",
       "abstract": "Comprehensive review of CRISPR-Cas9 gene editing technology and its applications in medicine and research.",
       "content": "\n                    CRISPR-Cas9 has revolutionized gene editing by providing a precise, efficient,\n                    and programmable system for genome modification. This comprehensive review\n                    examines the molecular mechanisms, current applications, and therapeutic\n                    potential of CRISPR-Cas9 technology.\n                    \n                    We describe the structure and function of the Cas9 protein, guide RNA design\n                    principles, and the DNA repair mechanisms that enable precise editing. The\n                    paper covers various CRISPR applications including gene knockout, knock-in,\n                    transcriptional regulation, and epigenome editing.\n                    \n                    Clinical applications are discussed, including treatments for genetic disorders,\n                    cancer therapy, and infectious diseases. We analyze successful clinical trials\n                    and examine the challenges of in vivo delivery and off-target effects.\n                    \n                    The review concludes with emerging CRISPR technologies such as base editing,\n                    prime editing, and CRISPR 2.0 systems. Ethical considerations and regulatory\n                    frameworks for clinical applications are also addressed.\n                    ",
       "url": "https://example.com/crispr-review",
-      "category": "Biology",
-      "added_at": "2025-12-10T14:22:00.395664"
+      "category": "biology",
+      "added_at": "2026-02-06T14:47:06.691157"
     },
     {
-      "id": "Biology_1",
+      "id": "biology_1",
       "title": "Single-Cell RNA Sequencing: Technologies, Analysis Methods, and Biological Insights",
       "abstract": "Overview of single-cell RNA sequencing technologies and their applications in understanding cellular heterogeneity.",
       "content": "\n                    Single-cell RNA sequencing (scRNA-seq) has transformed our understanding of\n                    cellular heterogeneity and gene expression dynamics. This paper provides an\n                    overview of scRNA-seq technologies, analysis methods, and biological insights.\n                    \n                    We review the major scRNA-seq platforms including droplet-based methods,\n                    plate-based approaches, and microwell technologies. The paper discusses\n                    technical considerations such as cell capture efficiency, transcript coverage,\n                    and computational requirements for different platforms.\n                    \n                    Computational analysis workflows are examined, including quality control,\n                    normalization, dimensionality reduction, clustering, and trajectory inference.\n                    We present best practices for experimental design and data interpretation.\n                    \n                    Biological applications span development, immunology, neuroscience, and\n                    cancer research. Case studies demonstrate how scRNA-seq has revealed new\n                    cell types, characterized differentiation processes, and identified\n                    disease mechanisms at single-cell resolution.\n                    ",
       "url": "https://example.com/scrna-seq",
-      "category": "Biology",
-      "added_at": "2025-12-10T14:22:00.423932"
+      "category": "biology",
+      "added_at": "2026-02-06T14:47:06.720661"
     },
     {
-      "id": "Biology_2",
+      "id": "biology_2",
       "title": "Microbiome-Host Interactions: Mechanisms and Implications for Human Health",
       "abstract": "Investigation of molecular mechanisms underlying microbiome-host interactions and their impact on health and disease.",
       "content": "\n                    The human microbiome plays a crucial role in health and disease through\n                    complex interactions with host physiology. This paper investigates the\n                    molecular mechanisms underlying microbiome-host interactions and their\n                    implications for human health.\n                    \n                    We examine the composition and diversity of the human microbiome across\n                    different body sites, with emphasis on the gut microbiome. The paper\n                    discusses factors that influence microbiome composition including diet,\n                    genetics, antibiotics, and environmental exposures.\n                    \n                    Molecular mechanisms of host-microbe communication are analyzed, including\n                    metabolite signaling, immune system modulation, and epithelial barrier\n                    function. We present evidence for microbiome involvement in metabolism,\n                    immune development, and neurological function.\n                    \n                    Disease associations are explored, including inflammatory bowel disease,\n                    obesity, diabetes, and mental health disorders. The paper concludes with\n                    therapeutic approaches targeting the microbiome, including probiotics,\n                    fecal microbiota transplantation, and precision microbiome interventions.\n                    ",
       "url": "https://example.com/microbiome",
-      "category": "Biology",
-      "added_at": "2025-12-10T14:22:00.455977"
+      "category": "biology",
+      "added_at": "2026-02-06T14:47:06.752724"
     }
-  ]
+  ],
+  "unknown": []
 }

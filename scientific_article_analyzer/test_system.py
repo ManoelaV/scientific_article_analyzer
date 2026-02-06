@@ -337,7 +337,7 @@ class TestEdgeCases:
 
 def run_tests():
     """Executa todos os testes."""
-    print("🧪 Executando Testes Automatizados")
+    print("[TEST] Running Automated Tests")
     print("=" * 50)
     
     # Executar pytest
@@ -349,11 +349,11 @@ def run_tests():
     ])
     
     if exit_code == 0:
-        print("\n✅ Todos os testes passaram!")
-        print("🎯 Sistema validado para produção")
+        print("\n[PASS] All tests passed!")
+        print("[OK] System validated for production")
     else:
-        print("\n❌ Alguns testes falharam")
-        print("🔧 Verificar implementação")
+        print("\n[FAIL] Some tests failed")
+        print("[INFO] Check implementation")
     
     return exit_code
 

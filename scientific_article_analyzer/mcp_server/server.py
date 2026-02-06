@@ -21,8 +21,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from mcp.server.fastmcp import FastMCP
 from mcp_server.tools import MCPTools
-from multi_agent_system import CoordinatorAgent
-from vector_store import VectorStore
+# from multi_agent_system import CoordinatorAgent  # TODO: implement
+from vector_store.store import VectorStore
 
 # Load environment variables
 load_dotenv()
@@ -48,10 +48,9 @@ def create_server() -> FastMCP:
         instructions="Scientific Article Analyzer MCP Server - Provides AI-powered analysis of scientific articles including classification, information extraction, and critical review generation using a multi-agent system."
     )
     
-    # Initialize multi-agent system
-    multi_agent_system = CoordinatorAgent(
-        openai_api_key=api_key
-    )
+    # Initialize multi-agent system (using ScientificArticleAnalyzer for now)
+    from main import ScientificArticleAnalyzer
+    multi_agent_system = ScientificArticleAnalyzer(openai_api_key=api_key)
     
     # Initialize MCP tools with multi-agent backend
     tools = MCPTools(multi_agent_system)
@@ -99,11 +98,29 @@ def create_server() -> FastMCP:
         Returns:
             Complete analysis including classification, extraction, and review
         """
-        return await multi_agent_system.analyze_article_multi_agent(
+        result = await multi_agent_system.analyze_article(
             input_data=content,
             input_type=input_type
         )
-    
+        # Convert AnalysisResult to dict for JSON serialization
+        return {
+            "classification": {
+                "category": result.classification.category.value,
+                "confidence": result.classification.confidence,
+                "reasoning": result.classification.reasoning
+            },
+            "extracted_info": {
+                "problem": result.extracted_info.problem,
+                "solution_steps": result.extracted_info.solution_steps,
+                "conclusion": result.extracted_info.conclusion
+            },
+            "review": {
+                "summary": result.review.summary,
+                "positive_aspects": result.review.positive_aspects,
+                "potential_issues": result.review.potential_issues,
+                "overall_score": result.review.overall_score
+            }
+        }
     return app
 
 
@@ -133,9 +150,6 @@ def main():
     try:
         # Create the server
         app = create_server()
-        
-        # Initialize vector store in the background
-        asyncio.create_task(initialize_vector_store())
         
         print(f"Scientific Article Analyzer MCP Server")
         print(f"Vector Store Path: {VECTOR_STORE_PATH}")
