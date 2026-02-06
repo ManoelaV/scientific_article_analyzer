@@ -1,8 +1,30 @@
 # Sistema de Análise de Artigos Científicos
 
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![MCP](https://img.shields.io/badge/MCP-enabled-green.svg)](https://modelcontextprotocol.io)
+
 ## 🔬 Visão Geral
 
 Sistema completo para análise automatizada de artigos científicos usando MCP (Model Context Protocol), vector store e multi-agentes para classificação, extração e geração de resenhas. Implementa formato de saída padronizado e testes abrangentes incluindo edge cases.
+
+## 🎬 Demonstração
+
+```bash
+# Analisar artigo de Machine Learning
+$ python main.py
+
+🔬 Scientific Article Analysis System
+==================================================
+🚀 Initializing system...
+✅ Usando Ollama: http://localhost:11434/v1
+📦 Modelo: llama3.2
+
+📊 Categoria: Computer Science (confiança: 0.83)
+📝 Problema: Desenvolver arquitetura de rede neural para...
+⭐ Score da Resenha: 8.5/10
+```
 
 ## 🚀 Quick Start
 
@@ -54,7 +76,7 @@ make test3    # Edge case (artigo fora das 3 áreas)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Exemplos](#-exemplos)
 - [Testes](#-testes)
-- [Contribuição](#-contribuição)
+- [Solução de Problemas](#-solução-de-problemas)
 
 ## 🎯 Visão Geral
 
@@ -181,6 +203,9 @@ copy .env.example .env
 Edite o arquivo `.env` com suas chaves de API.
 
 **Opção A — Ollama (local e gratuito)**
+
+📖 **[Veja guia completo de instalação do Ollama](scientific_article_analyzer/OLLAMA_SETUP.md)**
+
 ```env
 OPENAI_API_KEY=ollama
 OPENAI_API_BASE=http://localhost:11434/v1
@@ -366,13 +391,18 @@ Este teste verifica:
 - ✅ Carregamento do classificador
 - ✅ Modelos de dados
 
-### Executar Testes Completos (Em desenvolvimento)
+### Executar Testes Completos
 
 ```bash
 python test_system.py
 ```
 
-**Nota:** `test_system.py` foi escrito para uma versão anterior da API. Atualmente, 6 de 16 testes passam (testes do sistema de agentes). Os testes restantes precisam ser atualizados para a API atual.
+**Status Atual:** ✅ 6/16 testes passando (37.5%)
+- ✅ **Passando:** Testes do sistema multi-agente (6 testes)
+- ⚠️ **Falhando:** Testes de VectorStore e MCP (10 testes)
+- 🔧 **Motivo:** API foi atualizada, testes precisam ser adaptados
+
+**Nota:** Os testes de integração completa funcionam. Use `simple_test.py` para validação rápida.
 
 ### Testes Específicos
 
